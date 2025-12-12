@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"api-sample/model"
 	"api-sample/usecase"
 	"net/http"
 
@@ -18,14 +17,11 @@ func NewProdutoController(usecase usecase.ProdutoUseCase) produtoController {
 	}
 }
 
-func (prd *produtoController) GetProdutos(ctx *gin.Context) {
-
-	produtos := []model.Produto{
-		{
-			ID: 1,
-			Name: "Macarrão",
-			Price: 7,
-		},
+func (p *produtoController) GetProdutos(ctx *gin.Context) {
+	
+	produtos, err := p.produtoUseCase.GetProdutos()
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, err)
 	}
 
 	ctx.JSON(http.StatusOK, produtos)

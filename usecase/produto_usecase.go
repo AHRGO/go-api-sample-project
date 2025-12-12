@@ -1,15 +1,20 @@
 package usecase
 
-import "api-sample/model"
+import (
+	"api-sample/model"
+	"api-sample/repository"
+)
 
 type ProdutoUseCase struct {
-	//Repository
+	repository repository.ProdutoRepository
 }
 
-func NewProdutoUseCase() ProdutoUseCase {
-	return ProdutoUseCase{}
+func NewProdutoUseCase(repo repository.ProdutoRepository) ProdutoUseCase {
+	return ProdutoUseCase{
+		repository: repo,
+	}
 }
 
 func (pu *ProdutoUseCase) GetProdutos() ([]model.Produto, error) {
-	return []model.Produto{}, nil
+	return pu.repository.GetAllProdutos()
 }
