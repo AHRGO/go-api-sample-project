@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"api-sample/model"
 	"api-sample/usecase"
 	"net/http"
 
@@ -25,5 +26,24 @@ func (p *produtoController) GetProdutos(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, produtos)
+}
+
+
+func (pc *produtoController) CreateProduto(ctx *gin.Context) {
+	
+	var produto model.Produto
+	err := ctx.BindJSON(&produto)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, err)
+		return
+	}
+
+	produtoCriado, err := pc.produtoUseCase.CreateProduto(produto)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, err)
+		return
+	}
+
+	ctx.JSON(http.StatusCreated, produtoCriado)
 }
 

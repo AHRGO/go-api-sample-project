@@ -52,7 +52,7 @@ func (pr *ProdutoRepository) CreateProduto(produto model.Produto) (int, error) {
 	query, err := pr.connection.Prepare( "" +
 		"INSERT INTO produto" +
 		"(nome_produto, preco)" + 
-		"VALUES ($1 $2) RETURNING id_produto")
+		"VALUES ($1, $2) RETURNING id_produto")
 	if err != nil {
 		fmt.Println(err)
 		return 0, err
